@@ -1,20 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypegooseModule } from 'nestjs-typegoose';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArtistsModule } from './artists/artists.module';
-import { mongoConfig } from './configs/mongo.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     ArtistsModule,
-    TypegooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: mongoConfig,
-    }),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/music'),
   ],
   controllers: [AppController],
   providers: [AppService],

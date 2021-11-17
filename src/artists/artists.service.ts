@@ -1,21 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
-import { InjectModel } from 'nestjs-typegoose';
-import { ArtistModel } from './artist.model';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, ObjectId } from 'mongoose';
+import { Artist, ArtistDocument } from './artist.schema';
 import { CreateArtistDto } from './dto/create-artist.dto';
+import { UpdateArtistDto } from './dto/update-artist.dto';
 
 @Injectable()
 export class ArtistsService {
   constructor(
-    @InjectModel(ArtistModel)
-    private readonly artistModel: ModelType<ArtistModel>,
+    @InjectModel(Artist.name) private artistModel: Model<ArtistDocument>,
   ) {}
 
-  async create(dto: CreateArtistDto): Promise<DocumentType<ArtistModel>> {
-    return this.artistModel.create(dto);
+  async findAll(): Promise<Artist[]> {
+    return this.artistModel.find().exec();
   }
 
-  async delete(id: string): Promise<DocumentType<ArtistModel> | null> {
-    return this.artistModel.findByIdAndDelete(id).exec();
+  async findOne(id: ObjectId): Promise<Artist> {
+    return this.artistModel.findById(id);
+  }
+
+  create(createArtistDto: CreateArtistDto): Promise<Artist> {
+    const createdArtist = new this.artistModel(createArtistDto);
+    return createdArtist.save();
+  }
+
+  async delete(id: ObjectId): Promise<Artist> {
+    return this.artistModel.findByIdAndRemove(id);
+  }
+
+  async update(id: ObjectId, artistDto: UpdateArtistDto): Promise<Artist> {
+    return this.artistModel.findByIdAndUpdate(id, artistDto, {
+      new: true,
+    });
   }
 }

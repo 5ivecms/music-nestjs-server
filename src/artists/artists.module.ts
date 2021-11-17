@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypegooseModule } from 'nestjs-typegoose';
-import { ArtistModel } from './artist.model';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Artist, ArtistSchema } from './artist.schema';
 import { ArtistsController } from './artists.controller';
 import { ArtistsService } from './artists.service';
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([
-      { typegooseClass: ArtistModel, schemaOptions: { collection: 'artists' } },
-    ]),
+    MongooseModule.forFeature([{ name: Artist.name, schema: ArtistSchema }]),
   ],
   providers: [ArtistsService],
   controllers: [ArtistsController],

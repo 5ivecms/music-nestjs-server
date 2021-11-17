@@ -12,24 +12,24 @@ export class ArtistsService {
   ) {}
 
   async findAll(): Promise<Artist[]> {
-    return this.artistModel.find().exec();
+    return await this.artistModel.find().exec();
   }
 
   async findOne(id: ObjectId): Promise<Artist> {
-    return this.artistModel.findById(id);
+    return await this.artistModel.findById(id);
   }
 
-  create(createArtistDto: CreateArtistDto): Promise<Artist> {
+  async create(createArtistDto: CreateArtistDto): Promise<Artist> {
     const createdArtist = new this.artistModel(createArtistDto);
-    return createdArtist.save();
+    return await createdArtist.save();
   }
 
   async delete(id: ObjectId): Promise<Artist> {
-    return this.artistModel.findByIdAndRemove(id);
+    return await this.artistModel.findByIdAndRemove(id);
   }
 
   async update(id: ObjectId, artistDto: UpdateArtistDto): Promise<Artist> {
-    return this.artistModel.findByIdAndUpdate(id, artistDto, {
+    return await this.artistModel.findByIdAndUpdate(id, artistDto, {
       new: true,
     });
   }

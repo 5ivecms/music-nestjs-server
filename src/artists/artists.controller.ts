@@ -27,31 +27,30 @@ export class ArtistsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: ObjectId): Promise<Artist> {
-    const result = await this.artistsService.findOne(id);
+  findOne(@Param('id') id: ObjectId): Promise<Artist> {
+    const result = this.artistsService.findOne(id);
 
-    if (result) {
-      return result;
+    if (!result) {
+      throw new NotFoundException();
     }
 
-    throw new NotFoundException();
+    return result;
   }
 
   @Post()
-  async create(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
-    console.log(createArtistDto);
-    return await this.artistsService.create(createArtistDto);
+  create(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
+    return this.artistsService.create(createArtistDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: ObjectId): Promise<Artist> {
-    const result = await this.artistsService.delete(id);
+  delete(@Param('id') id: ObjectId): Promise<Artist> {
+    const result = this.artistsService.delete(id);
 
-    if (result) {
-      return result;
+    if (!result) {
+      throw new NotFoundException();
     }
 
-    throw new NotFoundException();
+    return result;
   }
 
   @Put(':id')

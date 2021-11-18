@@ -11,7 +11,16 @@ export class ArtistsService {
     @InjectModel(Artist.name) private artistModel: Model<ArtistDocument>,
   ) {}
 
-  async findAll(): Promise<Artist[]> {
+  // https://github.com/scalablescripts/nest-search-mongo/blob/main/src/product/product.controller.ts
+  // https://stackoverflow.com/questions/43729199/how-i-can-use-like-operator-on-mongoose
+  //https://github.com/topfullstack/nestjs-mongoose-crud
+  async findAll(query: any): Promise<Artist[]> {
+    const result = this.artistModel.find().where;
+    //console.log({});
+    console.log(
+      //await this.artistModel.find({ title: { $regex: '.*7.*' } }).exec(),
+      await this.artistModel.find({}).exec(),
+    );
     return await this.artistModel.find().exec();
   }
 

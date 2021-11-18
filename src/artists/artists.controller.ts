@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,8 +23,8 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Get()
-  findAll(): Promise<Artist[]> {
-    return this.artistsService.findAll();
+  findAll(@Query() query: any): Promise<Artist[]> {
+    return this.artistsService.findAll(query);
   }
 
   @Get(':id')

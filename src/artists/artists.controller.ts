@@ -7,11 +7,11 @@ import {
   Param,
   Post,
   Put,
-  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { CrudQuery, ICrudQuery } from 'src/lib/crud-query.decorator';
 import { Artist } from './artist.schema';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -23,7 +23,7 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Get()
-  findAll(@Query() query: any): Promise<Artist[]> {
+  findAll(@CrudQuery() query: ICrudQuery): Promise<IFindAll<Artist>> {
     return this.artistsService.findAll(query);
   }
 

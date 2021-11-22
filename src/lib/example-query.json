@@ -1,0 +1,7 @@
+{
+  "find": {"title": {"$regex": ".*7.*"}},
+  "where": { "username": "user1", "age": { "$gt": 18 } },
+  "sort": "-_id",
+  "limit": 10,
+  "page": 2
+}

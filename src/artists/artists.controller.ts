@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   NotFoundException,
   Param,
   Post,
@@ -14,6 +16,7 @@ import { ObjectId } from 'mongoose';
 import { CrudQuery, ICrudQuery } from 'src/lib/crud-query.decorator';
 import { Artist } from './artist.schema';
 import { ArtistsService } from './artists.service';
+import { BulkDeleteArtistsDto } from './dto/bulk-delete-artists.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 
@@ -51,6 +54,12 @@ export class ArtistsController {
       throw new NotFoundException();
     }
 
+    return result;
+  }
+
+  @Post('bulkDelete')
+  async bulkDelete(@Body() bulkDeleteDto: BulkDeleteArtistsDto): Promise<any> {
+    const result = await this.artistsService.bulkDelete(bulkDeleteDto);
     return result;
   }
 

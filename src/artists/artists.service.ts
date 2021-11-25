@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { Model, ObjectId } from 'mongoose';
 import { ICrudQuery } from 'src/lib/crud-query.decorator';
 import { Artist, ArtistDocument } from './artist.schema';
+import { BulkDeleteArtistsDto } from './dto/bulk-delete-artists.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 
@@ -56,6 +57,12 @@ export class ArtistsService {
 
   async delete(id: ObjectId): Promise<Artist> {
     return await this.artistModel.findByIdAndRemove(id);
+  }
+
+  async bulkDelete(bulkDelete: BulkDeleteArtistsDto) {
+    return await this.artistModel.deleteMany({
+      _id: { $in: [...bulkDelete._ids] },
+    });
   }
 
   async update(id: ObjectId, artistDto: UpdateArtistDto): Promise<Artist> {
